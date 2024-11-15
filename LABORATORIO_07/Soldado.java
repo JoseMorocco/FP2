@@ -1,9 +1,6 @@
 package LABORATORIO_07;
 
 public class Soldado {
-    package LABORATORIO_07;
-
-public class Soldado {
 	  private String nombre;
 	  private int vida;
 	  private int fila;
@@ -36,5 +33,3 @@ public class Soldado {
 	        return nombre + " (Vida: " + vida + " | Pos: [" + (fila+1) + "," + (columna+1) + "])";
 	    }    
 	}
-    
-}
