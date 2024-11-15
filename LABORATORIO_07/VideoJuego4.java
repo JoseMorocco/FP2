@@ -1,7 +1,4 @@
 package LABORATORIO_07;
-
-public class VideoJuego4 {
-    package LABORATORIO_07;
 import java.util.*;
 
 public class VideoJuego4 {
@@ -32,7 +29,22 @@ public class VideoJuego4 {
         mostrarEstadisticas(ejercito1, "Ejército 1");
         mostrarEstadisticas(ejercito2, "Ejército 2");
 
+        // Determinamos el ejército ganador
+        String ganador = (sumaVida(ejercito1) > sumaVida(ejercito2)) ? "Ejército 1" : "Ejército 2";
+        System.out.println("El ganador de la batalla es (según la suma total de vida de ambos ejércitos): " + ganador);
     }
+
+    
+
+    // Método para sumar vida total de un ejército
+    public static int sumaVida(ArrayList<Soldado> ejercito) {
+        int suma = 0;
+        for (Soldado soldado : ejercito) {
+            suma += soldado.getVida();
+        }
+        return suma;
+    }
+
     // Método para ingresar soldados al tablero y al ejército
     public static void ingresarSoldadosTablero(int nSoldados, Soldado[][] tablero, ArrayList<Soldado> ejercito, int idEjercito) {
         Random random = new Random();
@@ -74,6 +86,72 @@ public class VideoJuego4 {
                 }
             }
             System.out.println("|");
+        }
+    }
+    // Método para mostrar estadísticas del ejército
+    public static void mostrarEstadisticas(ArrayList<Soldado> ejercito, String nombreEjercito) {
+        System.out.println("\nEstadísticas de " + nombreEjercito + ":");
+
+        Soldado soldadoMayorVida = null;
+        int sumaVida = 0;
+
+        for (Soldado soldado : ejercito) {
+            sumaVida += soldado.getVida();
+            if (soldadoMayorVida == null || soldado.getVida() > soldadoMayorVida.getVida()) {
+                soldadoMayorVida = soldado;
+            }
+        }
+
+        double promedioVida = (ejercito.size() > 0) ? (double) sumaVida / ejercito.size() : 0;
+        promedioVida = Math.round(promedioVida * 100.0) / 100.0;
+
+        System.out.println("Soldado con mayor vida: " + soldadoMayorVida);
+        System.out.println("Promedio de vida: " + promedioVida);
+
+        System.out.println("\nSoldados en orden de creación:");
+        for (Soldado soldado : ejercito) {
+            System.out.println(soldado);
+        }
+
+        System.out.println("\nRanking de soldados (burbuja):");
+        ArrayList<Soldado> ejercitoOrdenadoBurbuja = new ArrayList<>(ejercito);
+        ordenarPorVidaBurbuja(ejercitoOrdenadoBurbuja);
+        for (Soldado soldado : ejercitoOrdenadoBurbuja) {
+            System.out.println(soldado);
+        }
+
+        System.out.println("\nRanking de soldados (selección):");
+        ArrayList<Soldado> ejercitoOrdenadoSeleccion = new ArrayList<>(ejercito);
+        ordenarPorVidaSeleccion(ejercitoOrdenadoSeleccion);
+        for (Soldado soldado : ejercitoOrdenadoSeleccion) {
+            System.out.println(soldado);
+        }
+    }
+    // Método para ordenar por vida usando burbuja
+    public static void ordenarPorVidaBurbuja(ArrayList<Soldado> soldados) {
+        for (int i = 0; i < soldados.size() - 1; i++) {
+            for (int j = 0; j < soldados.size() - i - 1; j++) {
+                if (soldados.get(j).getVida() < soldados.get(j + 1).getVida()) {
+                    Soldado temp = soldados.get(j);
+                    soldados.set(j, soldados.get(j + 1));
+                    soldados.set(j + 1, temp);
+                }
+            }
+        }
+    }
+
+    // Método para ordenar por vida usando selección
+    public static void ordenarPorVidaSeleccion(ArrayList<Soldado> soldados) {
+        for (int i = 0; i < soldados.size() - 1; i++) {
+            int maxIdx = i;
+            for (int j = i + 1; j < soldados.size(); j++) {
+                if (soldados.get(j).getVida() > soldados.get(maxIdx).getVida()) {
+                    maxIdx = j;
+                }
+            }
+            Soldado temp = soldados.get(maxIdx);
+            soldados.set(maxIdx, soldados.get(i));
+            soldados.set(i, temp);
         }
     }    
     
