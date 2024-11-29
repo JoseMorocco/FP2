@@ -136,6 +136,21 @@ public class VideoJuego5 {
         }
     }
 
+    // Método para ordenar por vida usando selección
+    public static void ordenarPorVidaSeleccion(List<Soldado> soldados) {
+        for (int i = 0; i < soldados.size() - 1; i++) {
+            int maxIdx = i;
+            for (int j = i + 1; j < soldados.size(); j++) {
+                if (soldados.get(j).getVida() > soldados.get(maxIdx).getVida()) {
+                    maxIdx = j;
+                }
+            }
+            Soldado temp = soldados.get(maxIdx);
+            soldados.set(maxIdx, soldados.get(i));
+            soldados.set(i, temp);
+        }
+    }
+
     // Método para ordenar por vida usando burbuja
     public static void ordenarPorVidaBurbuja(List<Soldado> soldados) {
         for (int i = 0; i < soldados.size() - 1; i++) {
