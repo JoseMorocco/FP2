@@ -5,40 +5,58 @@ import java.util.*;
 public class VideoJuego5 {
 
     public static void main(String[] args) {
-        Random random = new Random();
-        int tTablero = 10;
+        Scanner scanner = new Scanner(System.in);
 
-        // Generamos el número de soldados para cada ejército
-        int nSoldados1 = random.nextInt(10) + 1;
-        int nSoldados2 = random.nextInt(10) + 1;
-        System.out.println("Se generarán " + nSoldados1 + " Soldados para el Ejército1");
-        System.out.println("Se generarán " + nSoldados2 + " Soldados para el Ejército2");
+        System.out.println("¡Bienvenido al simulador de batalla!");
 
-        // Creamos el tablero vacío como un arreglo bidimensional Estandar
-        Soldado[][] tablero = new Soldado[tTablero][tTablero];
+        // CICLO PRINCIPAL QUE PERMITE REPETIR EL PROCESO SEGÚN LA ELECCIÓN DEL USUARIO
+        boolean continuar = true;
+        while (continuar) {
+            Random random = new Random();
+            int tTablero = 10;
 
-        // Inicializamos los ejércitos como HashMap de soldados
-        HashMap<Integer, Soldado> ejercito1 = new HashMap<>();
-        HashMap<Integer, Soldado> ejercito2 = new HashMap<>();
+            // Generamos el número de soldados para cada ejército
+            int nSoldados1 = random.nextInt(10) + 1;
+            int nSoldados2 = random.nextInt(10) + 1;
+            System.out.println("Se generarán " + nSoldados1 + " Soldados para el Ejército1");
+            System.out.println("Se generarán " + nSoldados2 + " Soldados para el Ejército2");
 
-        // Colocamos soldados en el tablero
-        ingresarSoldadosTablero(nSoldados1, tablero, ejercito1, 1);
-        ingresarSoldadosTablero(nSoldados2, tablero, ejercito2, 2);
+            // Creamos el tablero vacío como un arreglo bidimensional
+            Soldado[][] tablero = new Soldado[tTablero][tTablero];
 
-        mostrarTablero(tablero);
+            // Inicializamos los ejércitos como HashMap de soldados
+            HashMap<Integer, Soldado> ejercito1 = new HashMap<>();
+            HashMap<Integer, Soldado> ejercito2 = new HashMap<>();
 
-        // Mostramos datos de los ejércitos
-        mostrarEstadisticas(ejercito1, "Ejército 1");
-        mostrarEstadisticas(ejercito2, "Ejército 2");
+            // Colocamos soldados en el tablero
+            ingresarSoldadosTablero(nSoldados1, tablero, ejercito1, 1);
+            ingresarSoldadosTablero(nSoldados2, tablero, ejercito2, 2);
 
-        // Determinamos el ejército ganador usando if-else
-        String ganador;
-        if (sumaVida(ejercito1) > sumaVida(ejercito2)) {
-            ganador = "Ejército 1";
-        } else {
-            ganador = "Ejército 2";
+            mostrarTablero(tablero);
+
+            // Mostramos datos de los ejércitos
+            mostrarEstadisticas(ejercito1, "Ejército 1");
+            mostrarEstadisticas(ejercito2, "Ejército 2");
+
+            // Determinamos el ejército ganador
+            String ganador;
+            if (sumaVida(ejercito1) > sumaVida(ejercito2)) {
+                ganador = "Ejército 1";
+            } else {
+                ganador = "Ejército 2";
+            }
+            System.out.println("El ganador de la batalla es: " + ganador);
+
+            // PREGUNTAR AL USUARIO SI DESEA REALIZAR OTRA SIMULACIÓN
+            System.out.print("\n¿Desea realizar otra simulación? (s/n): ");
+            String respuesta = scanner.nextLine().toLowerCase();
+            if (!respuesta.equals("s")) {
+                continuar = false;
+            }
         }
-        System.out.println("El ganador de la batalla es (según la suma total de vida de ambos ejércitos): " + ganador);
+
+        System.out.println("¡Gracias por jugar! Hasta la próxima.");
+        scanner.close();
     }
 
     // Método para sumar vida total de un ejército
