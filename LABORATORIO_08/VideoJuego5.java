@@ -88,7 +88,7 @@ public class VideoJuego5 {
         }
     }
 
-    // ---> MÉTODO PARA MOSTRAR EL TABLERO EN CONSOLA
+    // ---> MÉTODO PARA MOSTRAR EL TABLERO 
     public static void mostrarTablero(Soldado[][] tablero) {
         // MOSTRAMOS LAS LETRAS DE LAS COLUMNAS
         System.out.print("    ");
@@ -143,6 +143,13 @@ public class VideoJuego5 {
         for (Soldado soldado : soldadosOrdenadosBurbuja) {
             System.out.println(soldado);
         }
+        System.out.println("\nRanking de soldados (selección):");
+        List<Soldado> soldadosOrdenadosSeleccion = new ArrayList<>(ejercito.values());
+        ordenarPorVidaSeleccion(soldadosOrdenadosSeleccion);
+        for (Soldado soldado : soldadosOrdenadosSeleccion) {
+            System.out.println(soldado);
+        }
+
     }
 
     // ---> MÉTODO BURBUJA PARA ORDENAR SOLDADOS POR VIDA
@@ -157,4 +164,26 @@ public class VideoJuego5 {
             }
         }
     }
+
+    // --> ESTE MÉTODO ENCUENTRA EL SOLDADO CON LA VIDA MÁS ALTA EN CADA ITERACIÓN Y LO COLOCA EN LA POSICIÓN CORRECTA.
+public static void ordenarPorVidaSeleccion(List<Soldado> soldados) {
+    // --> ITERAMOS SOBRE TODOS LOS SOLDADOS (EXCEPTO EL ÚLTIMO, YA QUE QUEDARÁ ORDENADO AUTOMÁTICAMENTE)
+    for (int i = 0; i < soldados.size() - 1; i++) {
+        // --> ASUMIMOS QUE EL SOLDADO EN LA POSICIÓN ACTUAL TIENE LA VIDA MÁS ALTA
+        int maxIdx = i;
+
+        // --> COMPARAR EL SOLDADO EN maxIdx CON LOS SOLDADOS RESTANTES
+        for (int j = i + 1; j < soldados.size(); j++) {
+            // --> SI ENCONTRAMOS UN SOLDADO CON MAYOR VIDA, ACTUALIZAMOS maxIdx
+            if (soldados.get(j).getVida() > soldados.get(maxIdx).getVida()) {
+                maxIdx = j; // --> NUEVA POSICIÓN DEL SOLDADO CON MAYOR VIDA
+            }
+        }
+
+        // --> INTERCAMBIAMOS EL SOLDADO EN maxIdx CON EL SOLDADO EN LA POSICIÓN ACTUAL (i)
+        Soldado temp = soldados.get(maxIdx);
+        soldados.set(maxIdx, soldados.get(i));
+        soldados.set(i, temp);
+    }
+}
 }
