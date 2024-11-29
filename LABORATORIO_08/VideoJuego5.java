@@ -95,4 +95,46 @@ public class VideoJuego5 {
         }
     }
 
+    // Método para mostrar estadísticas del ejército
+    public static void mostrarEstadisticas(HashMap<Integer, Soldado> ejercito, String nombreEjercito) {
+        System.out.println("\nEstadísticas de " + nombreEjercito + ":");
+
+        Soldado soldadoMayorVida = null;
+        int sumaVida = 0;
+
+        // Encontrar el soldado con mayor vida y sumar las vidas
+        for (Soldado soldado : ejercito.values()) {
+            sumaVida += soldado.getVida();
+            if (soldadoMayorVida == null || soldado.getVida() > soldadoMayorVida.getVida()) {
+                soldadoMayorVida = soldado;
+            }
+        }
+
+        double promedioVida = (ejercito.size() > 0) ? (double) sumaVida / ejercito.size() : 0;
+        promedioVida = Math.round(promedioVida * 100.0) / 100.0;
+
+        System.out.println("Soldado con mayor vida: " + soldadoMayorVida);
+        System.out.println("Promedio de vida: " + promedioVida);
+
+        System.out.println("\nSoldados en orden de creación:");
+        for (Soldado soldado : ejercito.values()) {
+            System.out.println(soldado);
+        }
+
+        System.out.println("\nRanking de soldados (burbuja):");
+        List<Soldado> soldadosOrdenadosBurbuja = new ArrayList<>(ejercito.values());
+        ordenarPorVidaBurbuja(soldadosOrdenadosBurbuja);
+        for (Soldado soldado : soldadosOrdenadosBurbuja) {
+            System.out.println(soldado);
+        }
+
+        System.out.println("\nRanking de soldados (selección):");
+        List<Soldado> soldadosOrdenadosSeleccion = new ArrayList<>(ejercito.values());
+        ordenarPorVidaSeleccion(soldadosOrdenadosSeleccion);
+        for (Soldado soldado : soldadosOrdenadosSeleccion) {
+            System.out.println(soldado);
+        }
+    }
+
+
 }
